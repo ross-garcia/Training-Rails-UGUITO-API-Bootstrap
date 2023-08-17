@@ -1,0 +1,26 @@
+panel 'Utility' do
+  attributes_table_for north_utility do
+    utility = locals[:north]
+    row :name do
+      utility.name
+    end
+    row :code do
+      utility.code
+    end
+    row :base_url do
+      utility.base_url
+    end
+    row :external_api_key do
+      utility.external_api_key
+    end
+    row :external_api_secret do
+      utility.external_api_secret
+    end
+    row :external_api_authentication_url do
+      utility.external_api_authentication_url
+    end
+    row :books_data_url do
+      utility.books_data_url
+    end
+  end
+end

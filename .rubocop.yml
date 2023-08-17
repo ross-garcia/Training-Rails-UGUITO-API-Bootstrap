@@ -1,0 +1,111 @@
+# This is the configuration used to check the rubocop source code.
+
+AllCops:
+  NewCops: disable
+  Exclude:
+    - spec/support/spec_helper.rb
+    - spec/rails_helper.rb
+    - db/**/*
+    - docs/**/*
+    - config/**/*
+    - bin/**/*
+
+Style/Documentation:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 99
+  Exclude:
+    - spec/**/*
+    - config/routes.rb
+
+Layout/HashAlignment:
+  Enabled: true
+  Exclude:
+    - lib/tasks/auto_annotate_models.rake
+
+HasAndBelongsToMany:
+  Enabled: false
+
+Metrics/MethodLength:
+  Exclude:
+    - app/services/**/response_mapper.rb
+    - app/services/**/request_mapper.rb
+    - app/services/**/failed_response_mapper.rb
+
+Metrics/AbcSize:
+  Exclude:
+    - app/services/**/response_mapper.rb
+    - app/services/**/request_mapper.rb
+    - app/services/**/failed_response_mapper.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - app/services/**/base.rb
+    - app/services/**/request_mapper.rb
+    - app/services/**/response_mapper.rb
+    - app/services/**/failed_response_mapper.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+    - lib/tasks/auto_annotate_models.rake
+    - app/admin/**/*
+    - app/views/admin/**/*
+    - config/routes.rb
+    - db/schema.rb
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+
+# rubocop-rspec custom configurations
+
+require:
+  - rubocop-rspec
+  - rubocop-rails
+
+RSpec/FilePath:
+  Enabled: false
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 10
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+Rails/RakeEnvironment:
+  Exclude:
+    - lib/tasks/auto_annotate_models.rake
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 20

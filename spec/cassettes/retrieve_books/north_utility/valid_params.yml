@@ -1,0 +1,80 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://private-bfc6a-widergytrainingnorthutilityapi.apiary-mock.com/libros?autor=Rodrigo%20Lugo%20Melgar
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '896'
+      X-Apiary-Ratelimit-Limit:
+      - '120'
+      X-Apiary-Ratelimit-Remaining:
+      - '119'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT
+      Access-Control-Expose-Headers:
+      - Content-Type
+      Access-Control-Max-Age:
+      - '10'
+      X-Apiary-Transaction-Id:
+      - 64d0ecd7602661007b7a1991
+      Date:
+      - Mon, 07 Aug 2023 13:08:39 GMT
+      Connection:
+      - keep-alive
+      Akamai-Grn:
+      - 0.1295c017.1691413718.1edb8b60
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+            "libros": [
+                {
+                    "id": 1,
+                    "titulo": "Harry Potter y la piedra filosofal",
+                    "autor": "J.K.Rowling",
+                    "genero": "fantasia",
+                    "imagen_url": "https://some_url.com",
+                    "editorial": "Nice Books",
+                    "año": "1997"
+                },
+                {
+                    "id": 2,
+                    "titulo": "Harry Potter y la cámara secreta",
+                    "autor": "J.K.Rowling",
+                    "genero": "fantasia",
+                    "imagen_url": "https://some_url.com",
+                    "editorial": "Nice Books",
+                    "año": "1998"
+                },
+                {
+                    "id": 3,
+                    "titulo": "Animales fantásticos y dónde encontrarlos",
+                    "autor": "J.K.Rowling",
+                    "genero": "fantasia",
+                    "imagen_url": "https://some_url.com",
+                    "editorial": "Nice Books",
+                    "año": "2001"
+                }
+            ]
+        }
+  recorded_at: Mon, 07 Aug 2023 13:08:39 GMT
+recorded_with: VCR 6.2.0

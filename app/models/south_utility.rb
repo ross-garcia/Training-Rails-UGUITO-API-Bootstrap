@@ -1,0 +1,2 @@
+class SouthUtility < Utility
+end
