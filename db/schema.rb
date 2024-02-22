@@ -76,10 +76,10 @@ ActiveRecord::Schema.define(version: 2024_02_20_125322) do
   end
 
   create_table "notes", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.string "title", null: false
     t.string "content", null: false
-    t.integer "note_type", default: 0, null: false
+    t.integer "note_type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_notes_on_user_id"

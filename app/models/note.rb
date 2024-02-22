@@ -3,10 +3,10 @@
 # Table name: notes
 #
 #  id         :bigint(8)        not null, primary key
-#  user_id    :bigint(8)
+#  user_id    :bigint(8)        not null
 #  title      :string           not null
 #  content    :string           not null
-#  note_type  :integer          default(0), not null
+#  note_type  :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

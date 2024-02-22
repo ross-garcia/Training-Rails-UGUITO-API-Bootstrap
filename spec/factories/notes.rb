@@ -3,6 +3,6 @@ FactoryBot.define do
     user
     title { Faker::Book.title }
     content { Faker::Lorem.sentence }
-    note_type { :review }
+    note_type { Note.note_types.values.sample }
   end
 end
