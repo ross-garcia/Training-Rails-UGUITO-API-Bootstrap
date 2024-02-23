@@ -31,3 +31,17 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        note:
+          attributes:
+            title:
+              blank: "%{attribute} is a required field"
+            content:
+              blank: "%{attribute} is a required field"
+            note_type:
+              blank: "%{attribute} is a required field"
+            user_id:
+              blank: "%{attribute} must include a valid user ID"
+
