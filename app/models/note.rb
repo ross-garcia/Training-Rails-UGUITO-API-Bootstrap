@@ -12,14 +12,14 @@
 #
 class Note < ApplicationRecord
   enum note_type: { review: 0, critique: 1 }
-  validates :title, :content, :note_type, :user_id, presence: true
+  validates :title, :content, :note_type, presence: true
   validate :validate_content_length
 
   belongs_to :user
   has_one :utility, through: :user
 
   def word_count
-    content.split.length
+    content.to_s.split.length
   end
 
   def content_length
@@ -39,6 +39,6 @@ class Note < ApplicationRecord
   end
 
   def invalid_content?
-    content.present? && utility.present? && word_count > utility.content_length_short && review?
+    word_count > utility.content_length_short && review?
   end
 end
