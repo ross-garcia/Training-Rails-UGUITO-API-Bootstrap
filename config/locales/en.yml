@@ -40,6 +40,7 @@ en:
               blank: "%{attribute} is a required field"
             content:
               blank: "%{attribute} is a required field"
+              validate_content_length: "The content field exceeds the number of words allowed"
             note_type:
               blank: "%{attribute} is a required field"
             user_id:

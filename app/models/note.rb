@@ -13,6 +13,7 @@
 class Note < ApplicationRecord
   enum note_type: { review: 0, critique: 1 }
   validates :title, :content, :note_type, :user_id, presence: true
+  validate :validate_content_length
 
   belongs_to :user
   has_one :utility, through: :user
@@ -21,34 +22,23 @@ class Note < ApplicationRecord
     content.split.length
   end
 
-  def content_length_of_north_utility
-    case word_count
-    when 0..50
-      'short'
-    when 51..100
-      'medium'
-    else
-      'long'
-    end
-  end
-
-  def content_length_of_south_utility
-    case word_count
-    when 0..60
-      'short'
-    when 61..120
-      'medium'
-    else
-      'long'
-    end
-  end
-
   def content_length
-    case utility.type
-    when 'SouthUtility'
-      content_lenght_of_south_utility
-    when 'NorthUtility'
-      content_lenght_of_north_utility
-    end
+    return 'short' if word_count <= utility.content_length_short
+    return 'medium' if word_count <= utility.content_length_medium
+    'long'
+  end
+
+  private
+
+  def validate_content_length
+    errors.add :content, validate_content_length_error if invalid_content?
+  end
+
+  def validate_content_length_error
+    I18n.t('activerecord.errors.models.note.attributes.content.validate_content_length')
+  end
+
+  def invalid_content?
+    content.present? && utility.present? && word_count > utility.content_length_short && review?
   end
 end
