@@ -31,3 +31,17 @@
 
 es:
   hello: "Hola Mundo!"
+  activerecord:
+    errors:
+      models:
+        note:
+          attributes:
+            title:
+              blank: "%{attribute} es un campo requerido"
+            content:
+              blank: "%{attribute} es un campo requerido"
+              validate_content_length: "El campo content excede la cantidad de palabras permitidas"
+            note_type:
+              blank: "%{attribute} es un campo requerido"
+            user_id:
+              blank: "%{attribute} debe incluir un ID de usuario válido"
