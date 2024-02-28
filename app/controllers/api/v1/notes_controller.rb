@@ -2,7 +2,7 @@ module Api
   module V1
     class NotesController < ApplicationController
       def index
-        render json: resp, status: :ok, each_serializer: IndexNoteSerializer
+        render json: index_response, status: :ok
       end
 
       def show
@@ -28,8 +28,11 @@ module Api
             .per(params[:page_size])
       end
 
-      def show_note
-        Note.find(params.require(:id))
+      def notes_filtered_serialized
+        ActiveModel::Serializer::CollectionSerializer.new(
+          notes_filtered,
+          each_serializer: NoteSerializer
+        )
       end
 
       def meta_data
@@ -37,15 +40,19 @@ module Api
           current_page: notes_filtered.current_page,
           per_page: notes_filtered.limit_value,
           total: notes_filtered.total_pages,
-          last_page: notes_filtered.next_page
+          last_page: notes_filtered.last_page?
         }
       end
 
-      def resp
+      def index_response
         {
           meta: meta_data,
-          data: notes_filtered
+          data: notes_filtered_serialized
         }
+      end
+
+      def show_note
+        Note.find(params.require(:id))
       end
     end
   end
