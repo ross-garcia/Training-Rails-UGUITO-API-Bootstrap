@@ -1,6 +1,8 @@
 module Api
   module V1
     class NotesController < ApplicationController
+      before_action :authenticate_user!
+
       def index
         render json: notes_filtered, status: :ok, each_serializer: IndexNoteSerializer
       end
@@ -12,7 +14,7 @@ module Api
       private
 
       def notes
-        Note.all
+        current_user.notes
       end
 
       def filtering_params
@@ -22,14 +24,14 @@ module Api
       def notes_filtered
         order = params[:order].in?(%w[asc desc ASC DESC]) ? params[:order] : 'desc'
 
-        Note.where(filtering_params)
-            .order(created_at: order)
-            .page(params[:page])
-            .per(params[:page_size])
+        notes.where(filtering_params)
+             .order(created_at: order)
+             .page(params[:page])
+             .per(params[:page_size])
       end
 
       def show_note
-        Note.find(params.require(:id))
+        notes.find(params.require(:id))
       end
     end
   end
