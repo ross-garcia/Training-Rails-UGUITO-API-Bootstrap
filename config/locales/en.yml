@@ -31,6 +31,10 @@
 
 en:
   hello: "Hello world"
+  errors:
+    render_missing_parameters: "Missing parameters required."
+    render_invalid_note_type: "The note type is not valid."
+    render_invalid_content: "A review cannot exceed 50 words."
   activerecord:
     errors:
       models:

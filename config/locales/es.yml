@@ -31,6 +31,10 @@
 
 es:
   hello: "Hola Mundo!"
+  errors:
+    render_missing_parameters: "Faltan parámetros requeridos."
+    render_invalid_note_type: "El tipo de nota no es válido."
+    render_invalid_content: "Una reseña no puede superar las 50 palabras."
   activerecord:
     errors:
       models:
