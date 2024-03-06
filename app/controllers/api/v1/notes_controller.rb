@@ -15,7 +15,7 @@ module Api
         create_note
         render json: { message: 'Nota creada con éxito.' }, status: :created
       rescue ActiveRecord::RecordInvalid => e
-        render_invalid_content if e.record.errors.to_h[:content]
+        render_invalid_content if e.record.errors.to_hash[:content]
       rescue ArgumentError
         render_invalid_note_type unless valid_note_type?
       end
