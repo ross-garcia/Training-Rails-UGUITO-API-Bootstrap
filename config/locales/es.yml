@@ -32,7 +32,8 @@
 es:
   hello: "Hola Mundo!"
   errors:
-    render_record_not_found: "Recurso no encontrado"
+    render_record_not_found: "Recurso no encontrado."
+    render_invalid_filter_note_type: "El tipo de nota no es válido."
   activerecord:
     errors:
       models:
