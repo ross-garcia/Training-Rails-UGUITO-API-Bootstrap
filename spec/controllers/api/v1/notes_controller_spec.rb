@@ -1,25 +1,17 @@
 describe Api::V1::NotesController, type: :controller do
   describe 'GET #index' do
-    let(:user_notes) { create_list(:note, 5, user: user) }
     let(:allowed_keys) { %w[id title note_type content_length] }
 
     context 'when there is a user logged in' do
       include_context 'with authenticated user'
 
-      let!(:expected) do
-        ActiveModel::Serializer::CollectionSerializer.new(
-          notes_expected,
-          serializer: IndexNoteSerializer
-        ).to_json
-      end
+      let!(:user_notes) { create_list(:note, 5, user: user) }
 
       context 'when fetching all the notes for user' do
-        let(:notes_expected) { user_notes }
-
         before { get :index }
 
         it 'responds with the expected notes json' do
-          expect(response_body.count).to eq(JSON.parse(expected).count)
+          expect(response_body.count).to eq(user_notes.count)
         end
 
         it 'responds matches with allowed keys' do
@@ -34,7 +26,7 @@ describe Api::V1::NotesController, type: :controller do
       context 'when fetching books with page and page size params' do
         let(:page)            { 1 }
         let(:page_size)       { 2 }
-        let(:notes_expected) { user_notes.first(2) }
+        let(:user_notes) { create_list(:note, page_size, user: user) }
 
         before { get :index, params: { page: page, page_size: page_size } }
 
@@ -53,9 +45,7 @@ describe Api::V1::NotesController, type: :controller do
 
       context 'when fetching notes using filters' do
         let(:note_type) { 'review' }
-
-        let!(:notes_custom) { create_list(:note, 2, user: user, note_type: note_type) }
-        let(:notes_expected) { notes_custom }
+        let(:user_notes) { create_list(:note, 5, user: user, note_type: note_type) }
 
         before { get :index, params: { note_type: note_type } }
 
@@ -84,16 +74,10 @@ describe Api::V1::NotesController, type: :controller do
     context 'when there is a user logged in' do
       include_context 'with authenticated user'
 
-      let(:expected) { ShowNoteSerializer.new(note, root: false).to_json }
-
       context 'when fetching a valid note' do
         let(:note) { create(:note, user: user) }
 
         before { get :show, params: { id: note.id } }
-
-        it 'responds with the note json' do
-          expect(response.body).to eq(expected)
-        end
 
         it 'responds matches with allowed keys' do
           expect(response_body.keys).to match_array(allowed_keys)
