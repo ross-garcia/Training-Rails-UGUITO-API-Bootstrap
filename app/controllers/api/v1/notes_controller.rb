@@ -21,7 +21,7 @@ module Api
       end
 
       def valid_note_type?
-        note_type.nil? || Note.note_types.keys.include?(params[:note_type])
+        note_type.nil? || Note.note_types.keys.include?(note_type)
       end
 
       def notes
