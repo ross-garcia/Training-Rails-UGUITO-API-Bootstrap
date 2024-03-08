@@ -1,6 +1,8 @@
 module Api
   module V1
     class NotesController < ApplicationController
+      before_action :authenticate_user!
+
       def index
         return render_invalid_filter_note_type unless valid_note_type?
         render json: notes, status: :ok, each_serializer: IndexNoteSerializer
@@ -11,6 +13,10 @@ module Api
       end
 
       private
+
+      def current_user_notes
+        current_user.notes
+      end
 
       def filtering_params
         params.permit [:note_type]
@@ -25,10 +31,10 @@ module Api
       end
 
       def notes
-        Note.where(filtering_params)
-            .order(created_at: order)
-            .page(params[:page])
-            .per(params[:page_size])
+        current_user_notes.where(filtering_params)
+                          .order(created_at: order)
+                          .page(params[:page])
+                          .per(params[:page_size])
       end
 
       def order
@@ -44,7 +50,7 @@ module Api
       end
 
       def note
-        Note.find(params.require(:id))
+        current_user_notes.find(params.require(:id))
       end
     end
   end
