@@ -34,9 +34,8 @@ en:
   errors:
     render_missing_parameters: "Missing parameters required."
     render_invalid_note_type: "The note type is not valid."
-    render_invalid_content: "A review cannot exceed 50 words."
+    render_invalid_content: "A review cannot exceed %{limit} words."
     render_record_not_found: "Resource not found"
-    render_invalid_filter_note_type: "The note type is not valid"
   activerecord:
     errors:
       models:
