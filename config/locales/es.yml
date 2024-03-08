@@ -35,6 +35,8 @@ es:
     render_missing_parameters: "Faltan parámetros requeridos."
     render_invalid_note_type: "El tipo de nota no es válido."
     render_invalid_content: "Una reseña no puede superar las 50 palabras."
+    render_record_not_found: "Recurso no encontrado."
+    render_invalid_filter_note_type: "El tipo de nota no es válido."
   activerecord:
     errors:
       models:
