@@ -2,7 +2,6 @@ module Api
   module V1
     class NotesController < ApplicationController
       before_action :authenticate_user!
-      before_action :note_create_params_required, only: [:create]
 
       def index
         return render_invalid_note_type unless valid_note_type_filter?
@@ -15,11 +14,10 @@ module Api
 
       def create
         return render_invalid_note_type unless valid_note_type?
-        return render json: { message: 'Nota creada con éxito.' }, status: :created if create_note
+        create_note
+        render_create_note_successfully
       rescue ActiveRecord::RecordInvalid => e
         render_invalid_content if e.record.errors.to_hash[:content]
-      rescue StandardError => e
-        render json: { error: e.message }, status: :internal_server_error
       end
 
       private
@@ -53,6 +51,10 @@ module Api
 
       def invalid_note_type_error
         I18n.t 'errors.render_invalid_note_type'
+      end
+
+      def render_create_note_successfully
+        render json: { message: 'Nota creada con éxito.' }, status: :created
       end
 
       def note
