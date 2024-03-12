@@ -1,6 +1,12 @@
 module UtilityService
   module North
     class ResponseMapper < UtilityService::ResponseMapper
+      NOTE_TYPES = {
+        resenia: 'review',
+        opinion: 'review',
+        critica: 'critique'
+      }.freeze
+
       def retrieve_books(_response_code, response_body)
         { books: map_books(response_body['libros']) }
       end
@@ -26,25 +32,31 @@ module UtilityService
       end
 
       def map_notes(notes)
-        types_review_notes = %i[resenia opinion]
-
         notes.map do |note|
           {
             title: note['titulo'],
-            type: types_review_notes.include?(note['tipo']) ? :review : :critique,
+            type: NOTE_TYPES[note['tipo'].to_sym],
             created_at: note['fecha_creacion'],
-            user: {
-              email: note['autor']['datos_de_contacto']['email'],
-              first_name: note['autor']['datos_personales']['nombre'],
-              last_name: note['autor']['datos_personales']['apellido']
-            },
-            book: {
-              title: note['libro']['titulo'],
-              author: note['libro']['autor'],
-              genre: note['libro']['genero']
-            }
+            user: map_user(note['autor']),
+            book: map_book(note['libro'])
           }
         end
+      end
+
+      def map_user(user)
+        {
+          email: user['datos_de_contacto']['email'],
+          first_name: user['datos_personales']['nombre'],
+          last_name: user['datos_personales']['apellido']
+        }
+      end
+
+      def map_book(book)
+        {
+          title: book['titulo'],
+          author: book['autor'],
+          genre: book['genero']
+        }
       end
     end
   end

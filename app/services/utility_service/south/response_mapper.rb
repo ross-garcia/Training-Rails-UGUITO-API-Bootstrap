@@ -29,20 +29,28 @@ module UtilityService
         notes.map do |note|
           {
             title: note['TituloNota'],
-            type: note['ReseniaNota'] ? :review : :critique,
+            type: note['ReseniaNota'].to_b ? :review : :critique,
             created_at: note['FechaCreacionNota'],
-            user: {
-              email: note['EmailAutor'],
-              first_name: note['NombreCompletoAutor'].strip.split[1],
-              last_name: note['NombreCompletoAutor'].strip.split[0]
-            },
-            book: {
-              title: note['TituloLibro'],
-              author: note['NombreAutorLibro'],
-              genre: note['GeneroLibro']
-            }
+            user: map_user(note),
+            book: map_book(note)
           }
         end
+      end
+
+      def map_user(user)
+        {
+          email: user['EmailAutor'],
+          first_name: user['NombreCompletoAutor'].strip.split[1],
+          last_name: user['NombreCompletoAutor'].strip.split[0]
+        }
+      end
+
+      def map_book(book)
+        {
+          title: book['TituloLibro'],
+          author: book['NombreAutorLibro'],
+          genre: book['GeneroLibro']
+        }
       end
     end
   end
