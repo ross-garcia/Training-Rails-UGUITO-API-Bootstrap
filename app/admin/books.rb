@@ -1,6 +1,6 @@
 ActiveAdmin.register Book do
   includes :utility, :user
-  permit_params :title, :author, :genre, :image, :publisher, :utility_id, :user_id
+  permit_params :title, :author, :genre, :image, :publisher, :year, :utility_id, :user_id
 
   config.per_page = 5
 
