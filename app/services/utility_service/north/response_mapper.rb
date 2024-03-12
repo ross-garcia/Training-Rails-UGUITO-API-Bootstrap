@@ -45,9 +45,9 @@ module UtilityService
 
       def map_user(user)
         {
-          email: user['datos_de_contacto']['email'],
-          first_name: user['datos_personales']['nombre'],
-          last_name: user['datos_personales']['apellido']
+          email: user.dig('datos_de_contacto', 'email'),
+          first_name: user.dig('datos_personales', 'nombre'),
+          last_name: user.dig('datos_personales', 'apellido')
         }
       end
 
