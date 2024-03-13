@@ -13,5 +13,7 @@ FactoryBot.define do
     books_data_url do
       'libros'
     end
+    content_length_short { 50 }
+    content_length_medium { 100 }
   end
 end
