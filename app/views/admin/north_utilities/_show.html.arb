@@ -22,5 +22,11 @@ panel 'Utility' do
     row :books_data_url do
       utility.books_data_url
     end
+    row :content_short do
+      utility.content_length_short
+    end
+    row :content_medium do
+      utility.content_length_medium
+    end
   end
 end
