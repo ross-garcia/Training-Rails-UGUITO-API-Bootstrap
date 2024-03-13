@@ -16,30 +16,32 @@ RSpec.describe Note, type: :model do
   end
 
   describe '.content_length' do
-    let(:note) { build(:note, user: user, content: content, note_type: :critique) }
+    let(:note) { create(:note, user: user, content: content, note_type: :critique) }
     let(:user) { create(:user, utility: utility) }
+    let(:content_length_short) { user.utility.content_length_short }
+    let(:content_length_medium) { user.utility.content_length_medium }
 
     context 'when North Utility' do
       let(:utility) { create(:north_utility) }
 
-      context 'with content <= 50 words' do
-        let(:content) { Faker::Lorem.words(number: 50).join(' ') }
+      context 'with content <= content_length_short words' do
+        let(:content) { Faker::Lorem.words(number: content_length_short).join(' ') }
 
         it 'return "short"' do
           expect(note.content_length).to eq('short')
         end
       end
 
-      context 'with content > 50 and content <= 100' do
-        let(:content) { Faker::Lorem.words(number: 100).join(' ') }
+      context 'with content > content_length_short and content <= content_length_medium' do
+        let(:content) { Faker::Lorem.words(number: content_length_medium).join(' ') }
 
         it 'return "medium"' do
           expect(note.content_length).to eq('medium')
         end
       end
 
-      context 'with content > 100' do
-        let(:content) { Faker::Lorem.words(number: 101).join(' ') }
+      context 'with content > content_length_medium' do
+        let(:content) { Faker::Lorem.words(number: content_length_medium + 1).join(' ') }
 
         it 'return "long"' do
           expect(note.content_length).to eq('long')
@@ -50,24 +52,24 @@ RSpec.describe Note, type: :model do
     context 'when South Utility' do
       let(:utility) { create(:south_utility) }
 
-      context 'with content <= 60 words' do
-        let(:content) { Faker::Lorem.words(number: 60).join(' ') }
+      context 'with content <= content_length_short words' do
+        let(:content) { Faker::Lorem.words(number: content_length_short).join(' ') }
 
         it 'return "short"' do
           expect(note.content_length).to eq('short')
         end
       end
 
-      context 'with content > 60 and content <= 120' do
-        let(:content) { Faker::Lorem.words(number: 120).join(' ') }
+      context 'with content > content_length_short and content <= content_length_medium' do
+        let(:content) { Faker::Lorem.words(number: content_length_medium).join(' ') }
 
         it 'return "medium"' do
           expect(note.content_length).to eq('medium')
         end
       end
 
-      context 'with content > 120' do
-        let(:content) { Faker::Lorem.words(number: 121).join(' ') }
+      context 'with content > content_length_medium' do
+        let(:content) { Faker::Lorem.words(number: content_length_medium + 1).join(' ') }
 
         it 'return "long"' do
           expect(note.content_length).to eq('long')
@@ -79,30 +81,31 @@ RSpec.describe Note, type: :model do
   describe '.validate_content_length' do
     let(:note) { build(:note, user: user, content: content, note_type: note_type) }
     let(:user) { create(:user, utility: utility) }
+    let(:content_length_short) { user.utility.content_length_short }
 
     context 'when North Utility' do
       let(:utility) { create(:north_utility) }
       let(:note_type) { :review }
 
-      context 'with content <= 50 words and note_type is "review"' do
-        let(:content) { Faker::Lorem.words(number: 50).join(' ') }
+      context 'with content <= content_length_short words and note_type is "review"' do
+        let(:content) { Faker::Lorem.words(number: content_length_short).join(' ') }
 
         it 'valid North Note' do
           expect(note).to be_valid
         end
       end
 
-      context 'with content > 50 words and note_type is "review"' do
-        let(:content) { Faker::Lorem.words(number: 51).join(' ') }
+      context 'with content > content_length_short words and note_type is "review"' do
+        let(:content) { Faker::Lorem.words(number: content_length_short + 1).join(' ') }
 
         it 'invalid North Note' do
           expect(note).not_to be_valid
         end
       end
 
-      context 'with content > 50 words and note_type not is "review"' do
+      context 'with content > content_length_short words and note_type not is "review"' do
         let(:note_type) { :critique }
-        let(:content) { Faker::Lorem.words(number: 51).join(' ') }
+        let(:content) { Faker::Lorem.words(number: content_length_short + 1).join(' ') }
 
         it 'valid North Note' do
           expect(note).to be_valid
@@ -114,25 +117,25 @@ RSpec.describe Note, type: :model do
       let(:utility) { create(:south_utility) }
       let(:note_type) { :review }
 
-      context 'with content <= 60 words and note_type is "review"' do
-        let(:content) { Faker::Lorem.words(number: 60).join(' ') }
+      context 'with content <= content_length_short words and note_type is "review"' do
+        let(:content) { Faker::Lorem.words(number: content_length_short).join(' ') }
 
         it 'valid South Note' do
           expect(note).to be_valid
         end
       end
 
-      context 'with content > 60 words and note_type is "review"' do
-        let(:content) { Faker::Lorem.words(number: 61).join(' ') }
+      context 'with content > content_length_short words and note_type is "review"' do
+        let(:content) { Faker::Lorem.words(number: content_length_short + 1).join(' ') }
 
         it 'invalid South Note' do
           expect(note).not_to be_valid
         end
       end
 
-      context 'with content > 60 words and note_type not is "review"' do
+      context 'with content > content_length_short words and note_type not is "review"' do
         let(:note_type) { :critique }
-        let(:content) { Faker::Lorem.words(number: 61).join(' ') }
+        let(:content) { Faker::Lorem.words(number: content_length_short + 1).join(' ') }
 
         it 'valid South Note' do
           expect(note).to be_valid
