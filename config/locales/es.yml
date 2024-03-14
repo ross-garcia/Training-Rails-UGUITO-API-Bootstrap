@@ -45,7 +45,7 @@ es:
               blank: "%{attribute} es un campo requerido"
             content:
               blank: "%{attribute} es un campo requerido"
-              validate_content_length: "El campo content excede la cantidad de palabras permitidas"
+              validate_content_length: "Una reseña no puede superar las %{limit} palabras."
             note_type:
               blank: "%{attribute} es un campo requerido"
             user_id:

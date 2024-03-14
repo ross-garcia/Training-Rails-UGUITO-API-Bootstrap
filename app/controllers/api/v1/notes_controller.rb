@@ -17,7 +17,7 @@ module Api
         create_note
         render_create_note_successfully
       rescue ActiveRecord::RecordInvalid => e
-        render_invalid_content if e.record.errors.to_hash[:content]
+        render_record_invalid(e.message)
       end
 
       private
@@ -78,16 +78,12 @@ module Api
         Note.note_types.keys.include?(note_type)
       end
 
-      def render_invalid_content
-        render json: { error: invalid_content_error }, status: :unprocessable_entity
+      def render_record_invalid(error_message)
+        render json: { error: error_message }, status: :unprocessable_entity
       end
 
       def limit_review_content_length
         current_user.utility.content_length_short
-      end
-
-      def invalid_content_error
-        I18n.t 'errors.render_invalid_content', limit: limit_review_content_length
       end
     end
   end
