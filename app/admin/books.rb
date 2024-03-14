@@ -20,6 +20,9 @@ ActiveAdmin.register Book do
   filter :title
   filter :author
   filter :genre
+  filter :utility, as: :select, collection: Utility.all.map { |utility|
+    [utility.name, utility.id]
+  }
   filter :created_at
   filter :updated_at
 
