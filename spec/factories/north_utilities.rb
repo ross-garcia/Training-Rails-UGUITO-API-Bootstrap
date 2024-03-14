@@ -16,5 +16,7 @@ FactoryBot.define do
     notes_data_url do
       'notas'
     end
+    content_length_short { 50 }
+    content_length_medium { 100 }
   end
 end
