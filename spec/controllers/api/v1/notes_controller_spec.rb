@@ -109,4 +109,137 @@ describe Api::V1::NotesController, type: :controller do
       end
     end
   end
+
+  describe 'POST #create' do
+    let(:body) { { note: { title: title, content: content, note_type: note_type } } }
+    let(:title) { Faker::Book.title }
+    let(:content) { Faker::Lorem.words(number: 50).join(' ') }
+    let(:note_type) { :review }
+
+    context 'when there is a user logged in' do
+      include_context 'with authenticated user'
+
+      let(:user) { create(:user, utility: utility) }
+
+      context 'when North Utility' do
+        let(:utility) { create(:north_utility) }
+
+        context 'when the body of the request is correct' do
+          before { post :create, params: body }
+
+          it 'responds with 201 status' do
+            expect(response).to have_http_status(:created)
+          end
+
+          it 'creates a new note' do
+            expect { post :create, params: body }.to change(Note, :count).by(1)
+          end
+        end
+
+        context 'when note type invalid' do
+          let(:note_type) { :invalid }
+
+          before { post :create, params: body }
+
+          it 'responds with 422 status' do
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+
+          it 'not create a note' do
+            expect { post :create, params: body }.not_to change(Note, :count)
+          end
+        end
+
+        context 'when content invalid' do
+          let(:content) { Faker::Lorem.words(number: 51).join(' ') }
+
+          before { post :create, params: body }
+
+          it 'responds with 422 status' do
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+
+          it 'not create a note' do
+            expect { post :create, params: body }.not_to change(Note, :count)
+          end
+        end
+
+        context 'when missing parameters' do
+          let(:body) { { note: { content: content, note_type: note_type } } }
+
+          before { post :create, params: body }
+
+          it { is_expected.to respond_with :bad_request }
+
+          it 'not create a note' do
+            expect { post :create, params: body }.not_to change(Note, :count)
+          end
+        end
+      end
+
+      context 'when South Utility' do
+        let(:utility) { create(:south_utility) }
+
+        context 'when the body of the request is correct' do
+          before { post :create, params: body }
+
+          it 'responds with 201 status' do
+            expect(response).to have_http_status(:created)
+          end
+
+          it 'creates a new note' do
+            expect { post :create, params: body }.to change(Note, :count).by(1)
+          end
+        end
+
+        context 'when note type invalid' do
+          let(:note_type) { :invalid }
+
+          before { post :create, params: body }
+
+          it 'responds with 422 status' do
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+
+          it 'not create a note' do
+            expect { post :create, params: body }.not_to change(Note, :count)
+          end
+        end
+
+        context 'when content invalid' do
+          let(:content) { Faker::Lorem.words(number: 61).join(' ') }
+
+          before { post :create, params: body }
+
+          it 'responds with 422 status' do
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+
+          it 'not create a note' do
+            expect { post :create, params: body }.not_to change(Note, :count)
+          end
+        end
+
+        context 'when missing parameters' do
+          let(:body) { { note: { content: content, note_type: note_type } } }
+
+          before { post :create, params: body }
+
+          it { is_expected.to respond_with :bad_request }
+
+          it 'not create a note' do
+            expect { post :create, params: body }.not_to change(Note, :count)
+          end
+        end
+      end
+    end
+
+    context 'when there is not a user logged in' do
+      context 'when creating a note' do
+        before { post :create, params: body }
+
+        it_behaves_like 'unauthorized'
+      end
+    end
+  end
 end

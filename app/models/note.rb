@@ -35,7 +35,8 @@ class Note < ApplicationRecord
   end
 
   def validate_content_length_error
-    I18n.t('activerecord.errors.models.note.attributes.content.validate_content_length')
+    I18n.t('activerecord.errors.models.note.attributes.content.validate_content_length',
+           limit: utility.content_length_short)
   end
 
   def invalid_content?

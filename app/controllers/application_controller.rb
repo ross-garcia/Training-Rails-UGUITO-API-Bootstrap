@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  rescue_from ActionController::ParameterMissing, with: :render_missing_parameters
   rescue_from ActiveRecord::RecordNotFound, with: :render_record_not_found
 
   private
@@ -54,6 +55,14 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name document_number])
+  end
+
+  def render_missing_parameters
+    render json: { error: missing_parameters_error }, status: :bad_request
+  end
+
+  def missing_parameters_error
+    I18n.t 'errors.render_missing_parameters'
   end
 
   def render_record_not_found
