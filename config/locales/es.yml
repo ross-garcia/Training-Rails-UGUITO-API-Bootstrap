@@ -32,8 +32,10 @@
 es:
   hello: "Hola Mundo!"
   errors:
+    render_missing_parameters: "Faltan parámetros requeridos."
+    render_invalid_note_type: "El tipo de nota no es válido."
+    render_invalid_content: "Una reseña no puede superar las %{limit} palabras."
     render_record_not_found: "Recurso no encontrado."
-    render_invalid_filter_note_type: "El tipo de nota no es válido."
   activerecord:
     errors:
       models:
@@ -43,7 +45,7 @@ es:
               blank: "%{attribute} es un campo requerido"
             content:
               blank: "%{attribute} es un campo requerido"
-              validate_content_length: "El campo content excede la cantidad de palabras permitidas"
+              validate_content_length: "Una reseña no puede superar las %{limit} palabras."
             note_type:
               blank: "%{attribute} es un campo requerido"
             user_id:
